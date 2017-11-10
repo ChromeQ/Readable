@@ -1,0 +1,94 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.flex-spacer {
+  flex-grow: 1;
+}
+
+.app-content {
+  display: flex;
+  margin: 2vmin;
+  text-align: left;
+}
+
+.category-list {
+    width: 25vw;
+    max-width: 250px;
+    height: fit-content;
+}
+
+.category-list a {
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.category-list a:hover h3 {
+  font-weight: bold;
+}
+
+.category-list .active h3 {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.category-list .nested {
+  margin-left: 2vmin;
+}
+
+.post-list {
+  flex-grow: 1;
+  margin-left: 2vmin;
+}
+
+.post-list h2 {
+  text-transform: capitalize;
+}
+
+.post-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.post-card {
+  display: inline-block;
+  width: 25vw;
+  max-width: 300px;
+  margin-right: 2vmin;
+  margin-bottom: 2vmin;
+  height: fit-content;
+}
+
+.post-card a {
+  text-decoration: none;
+}
+
+.post-card a:hover span[class*='MuiCardHeader-title'] {
+  font-weight: bold;
+}
