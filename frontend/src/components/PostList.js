@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
-import List, { ListItem, ListSubheader, ListItemText } from 'material-ui/List';
-import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import VoteUpIcon from 'material-ui-icons/ThumbUp';
 import VoteDownIcon from 'material-ui-icons/ThumbDown';
 import CommentIcon from 'material-ui-icons/Comment';
-import Paper from 'material-ui/Paper';
 
 import Time from './Time';
-import { getPosts } from '../actions';
 
 class PostList extends Component {
 
+    state = {
+        orderBy: 'voteScore'
+    }
+
     render() {
         const { posts } = this.props;
+        const { orderBy } = this.state;
+
+        posts.sort((a, b) => {
+            return a[orderBy] > b[orderBy] ? -1 : 1;
+        });
 
         return (
             <div className="post-list">

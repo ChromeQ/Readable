@@ -7,7 +7,6 @@ import { ConnectedRouter } from 'react-router-redux';
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
 import App from './components/App';
-import PostList from './components/PostList';
 import CategoryPage from './components/CategoryPage';
 import NotFound from './components/NotFound';
 import './css/index.css';
