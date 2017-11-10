@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
 import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
+import { FormControl } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import Select from 'material-ui/Select';
+
 import IconButton from 'material-ui/IconButton';
 import VoteUpIcon from 'material-ui-icons/ThumbUp';
 import VoteDownIcon from 'material-ui-icons/ThumbDown';
@@ -15,6 +20,15 @@ class PostList extends Component {
         orderBy: 'voteScore'
     }
 
+    orderByOptions = [
+        { value: 'voteScore', label: 'Vote Score' },
+        { value: 'timestamp', label: 'Date'}
+    ]
+
+    handleSelectChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    }
+
     render() {
         const { posts } = this.props;
         const { orderBy } = this.state;
@@ -25,7 +39,22 @@ class PostList extends Component {
 
         return (
             <div className="post-list">
-                <h2>{this.props.category} Posts</h2>
+                <div className="post-list-header">
+                    <h2>{this.props.category} Posts</h2>
+
+                    <FormControl className="post-sorter">
+                        <InputLabel htmlFor="orderBy">Order By</InputLabel>
+                        <Select
+                            value={orderBy}
+                            onChange={this.handleSelectChange('orderBy')}
+                            input={<Input id="orderBy" />}
+                        >
+                            {this.orderByOptions.map(option => (
+                                <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
 
                 <div className="post-container">
                     {posts.map(post => (
