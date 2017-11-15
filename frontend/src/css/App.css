@@ -65,23 +65,28 @@
   margin-left: 2vmin;
 }
 
-.post-list {
+.post-list,
+.post-details {
   flex-grow: 1;
   margin-left: 2vmin;
 }
 
-.post-list-header {
+.post-list-header,
+.post-details-header {
   display: flex;
 }
 
-.post-list h2 {
-  text-transform: capitalize;
-  flex-grow: 1;
+.post-list h2,
+.post-details h2 {
   display: inline-block;
+  flex-grow: 1;
+  margin-top: 0;
+  text-transform: capitalize;
 }
 
+.post-list .post-order,
 .post-list .post-sorter {
-
+  margin: 0 2.5vmin;
 }
 
 .post-container {
@@ -100,10 +105,24 @@
   height: fit-content;
 }
 
+.post-details .post-card {
+  flex-grow: 1;
+  margin-right: 0;
+  max-width: none;
+}
+
+.post-details button {
+  height: 2.5vmin;
+}
+
 .post-card a {
   text-decoration: none;
 }
 
 .post-card a:hover span[class*='MuiCardHeader-title'] {
   font-weight: bold;
+}
+
+.loading-spinner {
+  margin: 2.5vmin auto;
 }

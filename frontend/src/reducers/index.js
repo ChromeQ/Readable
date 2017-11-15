@@ -19,7 +19,7 @@ function categories (state = [], action) {
     }
 }
 
-function posts (state = {}, action) {
+function posts (state = [], action) {
     switch (action.type) {
         case SET_POSTS:
             const posts = action.posts.filter(post => {
@@ -28,7 +28,20 @@ function posts (state = {}, action) {
             });
             return state.concat(posts);
         case ADD_POST:
-            return state;
+            const post = action.post;
+            const index = state.findIndex(p => p.id === post.id);
+
+            if (index === -1) {
+                // Just simply add the new post to the end of the current posts array
+                return state.concat(post);
+            } else {
+                // Ensure only the matching post is replaced with this new one
+                return [
+                    ...state.slice(0, index),
+                    action.post,
+                    ...state.slice(index + 1)
+                ];
+            }
         case REMOVE_POST:
             return state;
         default:

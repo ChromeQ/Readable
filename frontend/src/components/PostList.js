@@ -1,32 +1,31 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Avatar from 'material-ui/Avatar';
-import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
-import { FormControl } from 'material-ui/Form';
+import { FormControl, FormControlLabel } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
+import Switch from 'material-ui/Switch';
 
-import IconButton from 'material-ui/IconButton';
-import VoteUpIcon from 'material-ui-icons/ThumbUp';
-import VoteDownIcon from 'material-ui-icons/ThumbDown';
-import CommentIcon from 'material-ui-icons/Comment';
-
-import Time from './Time';
+import PostItem from './PostItem';
 
 class PostList extends Component {
 
     state = {
-        orderBy: 'voteScore'
+        orderBy: 'voteScore',
+        sortASC: true
     }
 
     orderByOptions = [
         { value: 'voteScore', label: 'Vote Score' },
-        { value: 'timestamp', label: 'Date'}
+        { value: 'timestamp', label: 'Date'},
+        { value: 'commentCount', label: 'Comments'}
     ]
 
     handleSelectChange = name => event => {
         this.setState({ [name]: event.target.value });
+    }
+
+    handleSwitchChange = name => (event, checked) => {
+        this.setState({ [name]: checked });
     }
 
     render() {
@@ -34,7 +33,11 @@ class PostList extends Component {
         const { orderBy } = this.state;
 
         posts.sort((a, b) => {
-            return a[orderBy] > b[orderBy] ? -1 : 1;
+            if (this.state.sortASC) {
+                return a[orderBy] > b[orderBy] ? -1 : 1;
+            } else {
+                return a[orderBy] > b[orderBy] ? 1 : -1;
+            }
         });
 
         return (
@@ -42,7 +45,7 @@ class PostList extends Component {
                 <div className="post-list-header">
                     <h2>{this.props.category} Posts</h2>
 
-                    <FormControl className="post-sorter">
+                    <FormControl className="post-order">
                         <InputLabel htmlFor="orderBy">Order By</InputLabel>
                         <Select
                             value={orderBy}
@@ -54,31 +57,22 @@ class PostList extends Component {
                             ))}
                         </Select>
                     </FormControl>
+
+                    <FormControlLabel
+                        className="post-sorter"
+                        control={
+                            <Switch
+                                checked={this.state.sortASC}
+                                onChange={this.handleSwitchChange('sortASC')}
+                            />
+                        }
+                        label="Sort Ascending"
+                    />
                 </div>
 
                 <div className="post-container">
                     {posts.map(post => (
-                        <Card key={post.id} className="post-card">
-                            <Link to={`/posts/${post.id}`}>
-                                <CardHeader
-                                    avatar={<Avatar>{post.voteScore}</Avatar>}
-                                    title={post.title}
-                                    subheader={<Time timestamp={post.timestamp} />} />
-                            </Link>
-                            <CardContent>
-                                {post.body}
-                            </CardContent>
-                            <CardActions disableActionSpacing={true}>
-                                <IconButton>
-                                    <VoteUpIcon />
-                                </IconButton>
-                                <IconButton>
-                                    <VoteDownIcon />
-                                </IconButton>
-                                <div className="flex-spacer" />
-                                <CommentIcon />{post.commentCount}
-                            </CardActions>
-                        </Card>
+                        <PostItem key={post.id} post={post} />
                     ))}
                 </div>
             </div>

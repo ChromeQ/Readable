@@ -31,9 +31,22 @@ export function getPosts(category) {
 
         return retrieve(url)
             .then(res => res.json())
-            .then(data => dispatch({
+            .then(posts => dispatch({
                 type: SET_POSTS,
-                posts: data
+                posts
+            }));
+    }
+}
+
+export function getPost(postId) {
+    return (dispatch) => {
+        const url = `/posts/${postId}`;
+
+        return retrieve(url)
+            .then(res => res.json())
+            .then(post => dispatch({
+                type: ADD_POST,
+                post
             }));
     }
 }
