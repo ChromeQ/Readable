@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
 import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
