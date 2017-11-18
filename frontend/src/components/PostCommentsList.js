@@ -30,7 +30,7 @@ class PostCommentsList extends Component {
                 </div>
 
                 {comments.map(comment => (
-                    <CommentItem comment={comment} />
+                    <CommentItem key={comment.id} comment={comment} />
                 ))}
             </div>
         );
