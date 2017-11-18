@@ -16,9 +16,11 @@ class PostCommentsList extends Component {
     }
 
     render() {
-        const { comments } = this.props;
+        let { comments } = this.props;
 
-        comments.sort((a, b) => {
+        comments = comments.filter(comment => {
+            return !comment.deleted;
+        }).sort((a, b) => {
             return a.voteScore > b.voteScore ? -1 : 1;
         });
 

@@ -98,10 +98,16 @@ export function addComment({ timestamp, body, author, parentId }) {
     }
 }
 
-export function removeComment(id) {
-    return {
-        type: REMOVE_COMMENT,
-        id
+export function removeComment(commentId) {
+    return (dispatch) => {
+        const url = `/comments/${commentId}`;
+
+        return retrieve(url, null, 'DELETE')
+            .then(res => res.json())
+            .then(data => dispatch({
+                type: REMOVE_COMMENT,
+                data
+            }));
     }
 }
 

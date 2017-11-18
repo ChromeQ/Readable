@@ -28,6 +28,7 @@ class PostDetailPage extends Component {
                     <h2>{post.title}</h2>
 
                     <Button raised={true} color="primary">Edit Post</Button>
+                    <Button raised={true} color="accent">Delete Post</Button>
                 </div>
 
                 <div className="post-container">

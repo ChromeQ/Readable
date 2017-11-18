@@ -23,7 +23,8 @@ function categories (state = [], action) {
 }
 
 function posts (state = [], action) {
-    let index;
+    let index,
+        post;
 
     switch (action.type) {
         case SET_POSTS:
@@ -33,7 +34,7 @@ function posts (state = [], action) {
             });
             return state.concat(posts);
         case ADD_POST:
-            const post = action.post;
+            post = action.post;
             index = state.findIndex(p => p.id === post.id);
 
             if (index === -1) {
@@ -57,6 +58,14 @@ function posts (state = [], action) {
             ];
         case REMOVE_POST:
             return state;
+        case REMOVE_COMMENT:
+            return state.map(post => {
+                if (post.id !== action.data.parentId) {
+                    return post;
+                }
+
+                return { ...post, commentCount: post.commentCount - 1 };
+            })
         default:
             return state;
     }
@@ -78,6 +87,7 @@ function comments (state = {}, action) {
         case ADD_COMMENT:
             return state;
         case UPDATE_COMMENTS:
+        case REMOVE_COMMENT:
             const postId = action.data.parentId;
             const comments = state[postId].map(comment => {
                 if (comment.id !== action.data.id) {
@@ -91,8 +101,6 @@ function comments (state = {}, action) {
                 ...state,
                 [postId]: comments
             };
-        case REMOVE_COMMENT:
-            return state;
         default:
             return state;
     }

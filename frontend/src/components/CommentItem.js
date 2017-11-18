@@ -10,7 +10,7 @@ import EditIcon from 'material-ui-icons/Edit';
 import VoteUpIcon from 'material-ui-icons/ThumbUp';
 import VoteDownIcon from 'material-ui-icons/ThumbDown';
 
-import { makeVote } from '../actions';
+import { makeVote, removeComment } from '../actions';
 import Time from './Time';
 
 const CommentItem = (props) => {
@@ -18,6 +18,9 @@ const CommentItem = (props) => {
 
     const handleVoting = (voteDirection) => () => {
         props.dispatch(makeVote(voteDirection, 'comments', comment.id))
+    }
+    const handleDelete = () => {
+        props.dispatch(removeComment(comment.id))
     }
 
     return (
@@ -41,8 +44,8 @@ const CommentItem = (props) => {
                     <IconButton>
                         <EditIcon />
                     </IconButton>
-                    <IconButton>
-                        <DeleteIcon />
+                    <IconButton color="accent">
+                        <DeleteIcon onClick={handleDelete} />
                     </IconButton>
                 </CardActions>
             </Card>

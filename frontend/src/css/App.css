@@ -77,6 +77,10 @@
   display: flex;
 }
 
+.post-details-header button {
+  margin-left: 2vmin;
+}
+
 .post-list h2,
 .post-details h2 {
   display: inline-block;
