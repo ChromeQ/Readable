@@ -1,17 +1,21 @@
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
 export const ADD_POST = 'ADD_POST';
+export const UPDATE_POSTS = 'UPDATE_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const UPDATE_COMMENTS = 'UPDATE_COMMENTS';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 
-const retrieve = (url, data = {}) => {
+const retrieve = (url, data, method) => {
     return fetch(url, {
+        method: method || 'GET',
         headers: {
-            'Authorization': 'user-foo'
+            'Authorization': 'user-foo',
+            'Content-Type': 'application/json'
         },
-        body: data
+        body: data && JSON.stringify(data)
     });
 }
 
@@ -98,5 +102,19 @@ export function removeComment(id) {
     return {
         type: REMOVE_COMMENT,
         id
+    }
+}
+
+export function makeVote(voteDirection, type, id) {
+    return (dispatch) => {
+        const url = `/${type}/${id}`;
+        const actionType = `UPDATE_${type.toUpperCase()}`;
+
+        return retrieve(url, { option: voteDirection }, 'POST')
+            .then(res => res.json())
+            .then(data => dispatch({
+                type: actionType,
+                data
+            }));
     }
 }

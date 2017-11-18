@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Avatar from 'material-ui/Avatar';
 import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
@@ -9,16 +10,21 @@ import EditIcon from 'material-ui-icons/Edit';
 import VoteUpIcon from 'material-ui-icons/ThumbUp';
 import VoteDownIcon from 'material-ui-icons/ThumbDown';
 
+import { makeVote } from '../actions';
 import Time from './Time';
 
 const CommentItem = (props) => {
     const { comment } = props;
 
+    const handleVoting = (voteDirection) => () => {
+        props.dispatch(makeVote(voteDirection, 'comments', comment.id))
+    }
+
     return (
         <Paper>
             <Card key={comment.id} className="comment-card">
                 <CardHeader
-                    avatar={<Avatar>{comment.voteScore}</Avatar>}
+                    avatar={<Avatar>{comment.voteScore || '0'}</Avatar>}
                     title={`Written by ${comment.author}`}
                     subheader={<Time timestamp={comment.timestamp} />} />
                 <CardContent>
@@ -26,10 +32,10 @@ const CommentItem = (props) => {
                 </CardContent>
                 <CardActions disableActionSpacing={true}>
                     <IconButton>
-                        <VoteUpIcon />
+                        <VoteUpIcon onClick={handleVoting('upVote')} />
                     </IconButton>
                     <IconButton>
-                        <VoteDownIcon />
+                        <VoteDownIcon onClick={handleVoting('downVote')} />
                     </IconButton>
                     <div className="flex-spacer" />
                     <IconButton>
@@ -44,4 +50,4 @@ const CommentItem = (props) => {
 	);
 }
 
-export default CommentItem;
+export default connect()(CommentItem);

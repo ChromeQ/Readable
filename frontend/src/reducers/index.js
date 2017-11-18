@@ -4,9 +4,11 @@ import {
     SET_CATEGORIES,
     SET_POSTS,
     ADD_POST,
+    UPDATE_POSTS,
     REMOVE_POST,
     SET_COMMENTS,
     ADD_COMMENT,
+    UPDATE_COMMENTS,
     REMOVE_COMMENT
 } from '../actions';
 
@@ -21,6 +23,8 @@ function categories (state = [], action) {
 }
 
 function posts (state = [], action) {
+    let index;
+
     switch (action.type) {
         case SET_POSTS:
             const posts = action.posts.filter(post => {
@@ -30,7 +34,7 @@ function posts (state = [], action) {
             return state.concat(posts);
         case ADD_POST:
             const post = action.post;
-            const index = state.findIndex(p => p.id === post.id);
+            index = state.findIndex(p => p.id === post.id);
 
             if (index === -1) {
                 // Just simply add the new post to the end of the current posts array
@@ -43,6 +47,14 @@ function posts (state = [], action) {
                     ...state.slice(index + 1)
                 ];
             }
+        case UPDATE_POSTS:
+            index = state.findIndex(p => p.id === action.data.id);
+
+            return [
+                ...state.slice(0, index),
+                action.data,
+                ...state.slice(index + 1)
+            ];
         case REMOVE_POST:
             return state;
         default:
@@ -65,6 +77,20 @@ function comments (state = {}, action) {
             }
         case ADD_COMMENT:
             return state;
+        case UPDATE_COMMENTS:
+            const postId = action.data.parentId;
+            const comments = state[postId].map(comment => {
+                if (comment.id !== action.data.id) {
+                    return comment;
+                }
+
+                return action.data;
+            });
+
+            return {
+                ...state,
+                [postId]: comments
+            };
         case REMOVE_COMMENT:
             return state;
         default:
