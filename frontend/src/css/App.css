@@ -72,7 +72,8 @@
 }
 
 .post-list-header,
-.post-details-header {
+.post-details-header,
+.comments-details-header {
   display: flex;
 }
 
@@ -121,6 +122,10 @@
 
 .post-card a:hover span[class*='MuiCardHeader-title'] {
   font-weight: bold;
+}
+
+.comment-card {
+  margin-bottom: 2vmin;
 }
 
 .loading-spinner {

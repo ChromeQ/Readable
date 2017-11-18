@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
+
 import Button from 'material-ui/Button';
 
 import PostItem from './PostItem';
+import PostCommentsList from './PostCommentsList';
 import { getPost } from '../actions';
 
 class PostDetailPage extends Component {
@@ -31,6 +33,8 @@ class PostDetailPage extends Component {
                 <div className="post-container">
                     <PostItem post={post} />
                 </div>
+
+                <PostCommentsList post={post} />
             </div>
         );
     }

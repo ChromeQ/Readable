@@ -5,6 +5,7 @@ import {
     SET_POSTS,
     ADD_POST,
     REMOVE_POST,
+    SET_COMMENTS,
     ADD_COMMENT,
     REMOVE_COMMENT
 } from '../actions';
@@ -51,6 +52,17 @@ function posts (state = [], action) {
 
 function comments (state = {}, action) {
     switch (action.type) {
+        case SET_COMMENTS:
+            const matchingComments = state[action.postId];
+
+            if (!matchingComments) {
+                return {
+                    ...state,
+                    [action.postId]: action.comments
+                };
+            } else {
+                return state;
+            }
         case ADD_COMMENT:
             return state;
         case REMOVE_COMMENT:

@@ -11,6 +11,7 @@ class CategoryPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // Only get new posts for the category if the urls are not the same (navigating one category to another)
         if (this.props.match.url !== nextProps.match.url) {
             this.props.dispatch(getPosts(nextProps.match.params.category));
         }

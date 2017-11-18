@@ -11,7 +11,7 @@ const middleware = routerMiddleware(history)
 const defaultState = {
     categories: [],
     posts: [],
-    comments: []
+    comments: {}
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
