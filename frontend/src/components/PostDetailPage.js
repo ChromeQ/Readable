@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 
 import PostItem from './PostItem';
-import PostCommentsList from './PostCommentsList';
+import CommentList from './CommentList';
 import { getPost, removePost } from '../actions';
 
 class PostDetailPage extends Component {
@@ -45,7 +45,7 @@ class PostDetailPage extends Component {
                     <PostItem post={post} />
                 </div>
 
-                <PostCommentsList post={post} />
+                <CommentList post={post} />
             </div>
         );
     }

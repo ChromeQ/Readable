@@ -56,14 +56,16 @@ export function getPost(postId) {
     }
 }
 
-export function addPost({ timestamp, title, body, author, category }) {
-    return {
-        type: ADD_POST,
-        timestamp,
-        title,
-        body,
-        author,
-        category
+export function addPost(postData) {
+    return (dispatch) => {
+        const url = `/posts`;
+
+        return retrieve(url, postData, 'POST')
+            .then(res => res.json())
+            .then(post => dispatch({
+                type: ADD_POST,
+                post
+            }));
     }
 }
 

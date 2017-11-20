@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+
+import Button from 'material-ui/Button';
 import { FormControl, FormControlLabel } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import Select from 'material-ui/Select';
 import Switch from 'material-ui/Switch';
 
+import PostAddEditModalForm from './PostAddEditModalForm';
 import PostItem from './PostItem';
 
 class PostList extends Component {
 
     state = {
         orderBy: 'voteScore',
-        sortASC: true
+        sortASC: true,
+        isAdding: false
     }
 
     orderByOptions = [
@@ -70,6 +74,8 @@ class PostList extends Component {
                         }
                         label="Sort Ascending"
                     />
+
+                    <Button raised={true} color="primary" onClick={() => this.setState({ isAdding: true })}>Add Post</Button>
                 </div>
 
                 <div className="post-container">
@@ -77,6 +83,8 @@ class PostList extends Component {
                         <PostItem key={post.id} post={post} />
                     ))}
                 </div>
+
+                <PostAddEditModalForm isOpen={this.state.isAdding} category={this.props.category} onClose={() => this.setState({ isAdding: false })} />
             </div>
         );
     }
