@@ -6,12 +6,21 @@ import Button from 'material-ui/Button';
 
 import PostItem from './PostItem';
 import CommentList from './CommentList';
+import PostAddEditModalForm from './PostAddEditModalForm';
 import { getPost, removePost } from '../actions';
 
 class PostDetailPage extends Component {
 
+    state  = {
+        isEditing: false
+    }
+
     componentWillMount() {
         this.props.dispatch(getPost(this.props.match.params.postId));
+    }
+
+    handleEditPost = () => {
+        this.setState({ isEditing: true });
     }
 
     handleDeletePost = () => {
@@ -37,7 +46,7 @@ class PostDetailPage extends Component {
                 <div className="post-details-header">
                     <h2>{post.title}</h2>
 
-                    <Button raised={true} color="primary">Edit Post</Button>
+                    <Button raised={true} color="primary" onClick={this.handleEditPost}>Edit Post</Button>
                     <Button raised={true} color="accent" onClick={this.handleDeletePost}>Delete Post</Button>
                 </div>
 
@@ -46,6 +55,8 @@ class PostDetailPage extends Component {
                 </div>
 
                 <CommentList post={post} />
+
+                <PostAddEditModalForm post={post} isOpen={this.state.isEditing} onClose={() => this.setState({ isEditing: false })} />
             </div>
         );
     }

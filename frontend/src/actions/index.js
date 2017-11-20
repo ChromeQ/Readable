@@ -69,6 +69,19 @@ export function addPost(postData) {
     }
 }
 
+export function editPost(postData) {
+    return (dispatch) => {
+        const url = `/posts/${postData.id}`;
+
+        return retrieve(url, postData, 'PUT')
+            .then(res => res.json())
+            .then(post => dispatch({
+                type: ADD_POST,
+                post
+            }));
+    }
+}
+
 export function removePost(postId) {
     return (dispatch) => {
         const url = `/posts/${postId}`;

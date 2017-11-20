@@ -8,22 +8,28 @@ import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 
-import { addPost } from '../actions';
+import { addPost, editPost } from '../actions';
+
+const emptyPost = {
+    id: '',
+    timestamp: '',
+    title: '',
+    body: '',
+    author: '',
+    category: ''
+};
 
 class PostAddEditModalForm extends Component {
 
     state = {
         isOpen: false,
-        title: '',
-        body: '',
-        author: '',
-        category: ''
+        ...emptyPost
     }
 
     componentWillMount() {
         this.setState({
             isOpen: this.props.isOpen,
-            category: this.props.category || ''
+            ...this.props.post
         });
     }
 
@@ -31,41 +37,44 @@ class PostAddEditModalForm extends Component {
         if (this.state.isOpen !== nextProps.isOpen) {
             this.setState({
                 isOpen: nextProps.isOpen,
-                category: nextProps.category || ''
+                ...nextProps.post
             });
         }
-    }
-
-    handleCancel = () => {
-        this.props.onClose();
-        this.setState({
-            isOpen: false,
-            title: '',
-            body: '',
-            author: '',
-            category: ''
-        });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-
-        this.props.dispatch(addPost({
-            id: uuid(),
-            timestamp: Date.now(),
-            title: this.state.title,
-            body: this.state.body,
-            author: this.state.author,
-            category: this.state.category
-        }));
-
-        this.handleCancel();
     }
 
     handleChange = (name) => (event) => {
         this.setState({
             [name]: event.target.value
         });
+    }
+
+    handleCancel = () => {
+        this.props.onClose();
+        this.setState({
+            isOpen: false,
+            ...emptyPost
+        });
+    }
+
+    handleSubmit = (event) => {
+        const post = {
+            id: this.state.id || uuid(),
+            timestamp: this.state.timestamp || Date.now(),
+            title: this.state.title,
+            body: this.state.body,
+            author: this.state.author,
+            category: this.state.category
+        };
+
+        event.preventDefault();
+
+        if (this.state.id) {
+            this.props.dispatch(editPost(post));
+        } else {
+            this.props.dispatch(addPost(post));
+        }
+
+        this.handleCancel();
     }
 
     render() {

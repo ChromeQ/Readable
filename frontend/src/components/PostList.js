@@ -84,7 +84,7 @@ class PostList extends Component {
                     ))}
                 </div>
 
-                <PostAddEditModalForm isOpen={this.state.isAdding} category={this.props.category} onClose={() => this.setState({ isAdding: false })} />
+                <PostAddEditModalForm post={{ category: this.props.category }} isOpen={this.state.isAdding} onClose={() => this.setState({ isAdding: false })} />
             </div>
         );
     }
