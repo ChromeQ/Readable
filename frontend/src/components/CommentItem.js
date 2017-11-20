@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Avatar from 'material-ui/Avatar';
@@ -10,50 +10,64 @@ import EditIcon from 'material-ui-icons/Edit';
 import VoteUpIcon from 'material-ui-icons/ThumbUp';
 import VoteDownIcon from 'material-ui-icons/ThumbDown';
 
+import CommentAddEditModalForm from './CommentAddEditModalForm';
 import { makeVote, removeComment } from '../actions';
 import Time from './Time';
 
-const CommentItem = (props) => {
-    const { comment } = props;
+class CommentItem extends Component {
 
-    const handleVoting = (voteDirection) => () => {
-        props.dispatch(makeVote(voteDirection, 'comments', comment.id))
+    state  = {
+        isEditing: false
     }
 
-    const handleDelete = () => {
+    handleVoting = (voteDirection) => () => {
+        this.props.dispatch(makeVote(voteDirection, 'comments', this.props.comment.id))
+    }
+
+    handleEdit = () => {
+        this.setState({ isEditing: true });
+    }
+
+    handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this comment?')) {
-            props.dispatch(removeComment(comment.id))
+            this.props.dispatch(removeComment(this.props.comment.id))
         }
     }
 
-    return (
-        <Paper>
-            <Card key={comment.id} className="comment-card">
-                <CardHeader
-                    avatar={<Avatar>{comment.voteScore || '0'}</Avatar>}
-                    title={`Written by ${comment.author}`}
-                    subheader={<Time timestamp={comment.timestamp} />} />
-                <CardContent>
-                    {comment.body}
-                </CardContent>
-                <CardActions disableActionSpacing={true}>
-                    <IconButton>
-                        <VoteUpIcon onClick={handleVoting('upVote')} />
-                    </IconButton>
-                    <IconButton>
-                        <VoteDownIcon onClick={handleVoting('downVote')} />
-                    </IconButton>
-                    <div className="flex-spacer" />
-                    <IconButton>
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton color="accent">
-                        <DeleteIcon onClick={handleDelete} />
-                    </IconButton>
-                </CardActions>
-            </Card>
-        </Paper>
-	);
+    render() {
+        const { comment } = this.props;
+
+        return (
+            <Paper>
+                <Card key={comment.id} className="comment-card">
+                    <CardHeader
+                        avatar={<Avatar>{comment.voteScore || '0'}</Avatar>}
+                        title={`Written by ${comment.author}`}
+                        subheader={<Time timestamp={comment.timestamp} />} />
+                    <CardContent>
+                        {comment.body}
+                    </CardContent>
+                    <CardActions disableActionSpacing={true}>
+                        <IconButton>
+                            <VoteUpIcon onClick={this.handleVoting('upVote')} />
+                        </IconButton>
+                        <IconButton>
+                            <VoteDownIcon onClick={this.handleVoting('downVote')} />
+                        </IconButton>
+                        <div className="flex-spacer" />
+                        <IconButton>
+                            <EditIcon onClick={this.handleEdit} />
+                        </IconButton>
+                        <IconButton color="accent">
+                            <DeleteIcon onClick={this.handleDelete} />
+                        </IconButton>
+                    </CardActions>
+                </Card>
+
+                <CommentAddEditModalForm comment={comment} isOpen={this.state.isEditing} onClose={() => this.setState({ isEditing: false })} />
+            </Paper>
+    	);
+    }
 }
 
 export default connect()(CommentItem);

@@ -82,7 +82,7 @@ class PostAddEditModalForm extends Component {
         return (
             <Modal className="modal" overlayClassName="modal-overlay" isOpen={this.state.isOpen} onRequestClose={this.handleCancel}>
                 <Paper className="modal-form">
-                    <h3>Adding a new post</h3>
+                    <h3>{!this.state.id ? 'Adding a new post' : 'Editing a post'}</h3>
                     <form noValidate autoComplete="off">
                         <TextField fullWidth={true} required={true} id="title" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
                         <TextField fullWidth={true} required={true} id="body" label="Body" multiline={true} value={this.state.body} onChange={this.handleChange('body')} />

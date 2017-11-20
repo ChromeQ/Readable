@@ -19,11 +19,11 @@ class PostDetailPage extends Component {
         this.props.dispatch(getPost(this.props.match.params.postId));
     }
 
-    handleEditPost = () => {
+    handleEdit = () => {
         this.setState({ isEditing: true });
     }
 
-    handleDeletePost = () => {
+    handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             this.props.dispatch(removePost(this.props.post.id));
         }
@@ -46,8 +46,8 @@ class PostDetailPage extends Component {
                 <div className="post-details-header">
                     <h2>{post.title}</h2>
 
-                    <Button raised={true} color="primary" onClick={this.handleEditPost}>Edit Post</Button>
-                    <Button raised={true} color="accent" onClick={this.handleDeletePost}>Delete Post</Button>
+                    <Button raised={true} color="primary" onClick={this.handleEdit}>Edit Post</Button>
+                    <Button raised={true} color="accent" onClick={this.handleDelete}>Delete Post</Button>
                 </div>
 
                 <div className="post-container">

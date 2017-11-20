@@ -124,7 +124,7 @@ export function addComment(commentData) {
 
 export function editComment(commentData) {
     return (dispatch) => {
-        const url = `/posts/${commentData.id}`;
+        const url = `/comments/${commentData.id}`;
 
         return retrieve(url, commentData, 'PUT')
             .then(res => res.json())
