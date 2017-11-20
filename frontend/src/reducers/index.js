@@ -50,21 +50,29 @@ function posts (state = [], action) {
             }
         case UPDATE_POSTS:
         case REMOVE_POST:
-            index = state.findIndex(p => p.id === action.data.id);
+            index = state.findIndex(p => p.id === action.post.id);
 
             return [
                 ...state.slice(0, index),
-                action.data,
+                action.post,
                 ...state.slice(index + 1)
             ];
+        case ADD_COMMENT:
+            return state.map(post => {
+                if (post.id !== action.comment.parentId) {
+                    return post;
+                }
+
+                return { ...post, commentCount: post.commentCount + 1 };
+            });
         case REMOVE_COMMENT:
             return state.map(post => {
-                if (post.id !== action.data.parentId) {
+                if (post.id !== action.comment.parentId) {
                     return post;
                 }
 
                 return { ...post, commentCount: post.commentCount - 1 };
-            })
+            });
         default:
             return state;
     }
@@ -84,16 +92,24 @@ function comments (state = {}, action) {
                 return state;
             }
         case ADD_COMMENT:
-            return state;
+            const parentId = action.comment.parentId;
+
+            return {
+                ...state,
+                [parentId]: [
+                    ...state[parentId],
+                    action.comment
+                ]
+            };
         case UPDATE_COMMENTS:
         case REMOVE_COMMENT:
-            const postId = action.data.parentId;
+            const postId = action.comment.parentId;
             const comments = state[postId].map(comment => {
-                if (comment.id !== action.data.id) {
+                if (comment.id !== action.comment.id) {
                     return comment;
                 }
 
-                return action.data;
+                return action.comment;
             });
 
             return {

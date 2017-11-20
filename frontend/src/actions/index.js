@@ -76,7 +76,7 @@ export function editPost(postData) {
         return retrieve(url, postData, 'PUT')
             .then(res => res.json())
             .then(post => dispatch({
-                type: ADD_POST,
+                type: UPDATE_POSTS,
                 post
             }));
     }
@@ -88,9 +88,9 @@ export function removePost(postId) {
 
         return retrieve(url, null, 'DELETE')
             .then(res => res.json())
-            .then(data => dispatch({
+            .then(post => dispatch({
                 type: REMOVE_POST,
-                data
+                post
             }));
     }
 }
@@ -109,13 +109,29 @@ export function getComments(postId) {
     }
 }
 
-export function addComment({ timestamp, body, author, parentId }) {
-    return {
-        type: ADD_COMMENT,
-        timestamp,
-        body,
-        author,
-        parentId
+export function addComment(commentData) {
+    return (dispatch) => {
+        const url = `/comments`;
+
+        return retrieve(url, commentData, 'POST')
+            .then(res => res.json())
+            .then(comment => dispatch({
+                type: ADD_COMMENT,
+                comment
+            }));
+    }
+}
+
+export function editComment(commentData) {
+    return (dispatch) => {
+        const url = `/posts/${commentData.id}`;
+
+        return retrieve(url, commentData, 'PUT')
+            .then(res => res.json())
+            .then(comment => dispatch({
+                type: UPDATE_COMMENTS,
+                comment
+            }));
     }
 }
 
@@ -125,9 +141,9 @@ export function removeComment(commentId) {
 
         return retrieve(url, null, 'DELETE')
             .then(res => res.json())
-            .then(data => dispatch({
+            .then(comment => dispatch({
                 type: REMOVE_COMMENT,
-                data
+                comment
             }));
     }
 }
@@ -141,7 +157,7 @@ export function makeVote(voteDirection, type, id) {
             .then(res => res.json())
             .then(data => dispatch({
                 type: actionType,
-                data
+                [type === 'posts' ? 'post' : 'comment']: data
             }));
     }
 }
