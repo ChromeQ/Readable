@@ -15,8 +15,7 @@ class PostDetailPage extends Component {
     }
 
     render() {
-        const { posts, match: { params: { postId }}} = this.props;
-        const post = posts.find(post => post.id === postId);
+        const { post } = this.props;
 
         if (!post) {
             return <ReactLoading className="loading-spinner" type="spin" color="#555" />;
@@ -41,9 +40,13 @@ class PostDetailPage extends Component {
     }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
+    const { posts } = state;
+    const { match: { params: { postId }}} = ownProps;
+    const post = posts.find(post => post.id === postId);
+
     return {
-        posts: state.posts
+        post: post || null
     };
 }
 
