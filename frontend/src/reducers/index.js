@@ -49,6 +49,7 @@ function posts (state = [], action) {
                 ];
             }
         case UPDATE_POSTS:
+        case REMOVE_POST:
             index = state.findIndex(p => p.id === action.data.id);
 
             return [
@@ -56,8 +57,6 @@ function posts (state = [], action) {
                 action.data,
                 ...state.slice(index + 1)
             ];
-        case REMOVE_POST:
-            return state;
         case REMOVE_COMMENT:
             return state.map(post => {
                 if (post.id !== action.data.parentId) {

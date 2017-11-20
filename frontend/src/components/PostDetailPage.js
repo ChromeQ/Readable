@@ -6,12 +6,18 @@ import Button from 'material-ui/Button';
 
 import PostItem from './PostItem';
 import PostCommentsList from './PostCommentsList';
-import { getPost } from '../actions';
+import { getPost, removePost } from '../actions';
 
 class PostDetailPage extends Component {
 
     componentWillMount() {
         this.props.dispatch(getPost(this.props.match.params.postId));
+    }
+
+    handleDeletePost = () => {
+        if (window.confirm('Are you sure you want to delete this post?')) {
+            this.props.dispatch(removePost(this.props.post.id));
+        }
     }
 
     render() {
@@ -21,13 +27,18 @@ class PostDetailPage extends Component {
             return <ReactLoading className="loading-spinner" type="spin" color="#555" />;
         }
 
+        if (post.deleted) {
+            this.props.history.push('/');
+            return null;
+        }
+
         return (
             <div className="post-details">
                 <div className="post-details-header">
                     <h2>{post.title}</h2>
 
                     <Button raised={true} color="primary">Edit Post</Button>
-                    <Button raised={true} color="accent">Delete Post</Button>
+                    <Button raised={true} color="accent" onClick={this.handleDeletePost}>Delete Post</Button>
                 </div>
 
                 <div className="post-container">

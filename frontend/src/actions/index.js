@@ -67,10 +67,16 @@ export function addPost({ timestamp, title, body, author, category }) {
     }
 }
 
-export function removePost(id) {
-    return {
-        type: REMOVE_POST,
-        id
+export function removePost(postId) {
+    return (dispatch) => {
+        const url = `/posts/${postId}`;
+
+        return retrieve(url, null, 'DELETE')
+            .then(res => res.json())
+            .then(data => dispatch({
+                type: REMOVE_POST,
+                data
+            }));
     }
 }
 

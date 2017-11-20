@@ -29,10 +29,12 @@ class PostList extends Component {
     }
 
     render() {
-        const { posts } = this.props;
+        let { posts } = this.props;
         const { orderBy } = this.state;
 
-        posts.sort((a, b) => {
+        posts = posts.filter(post => {
+            return !post.deleted;
+        }).sort((a, b) => {
             if (this.state.sortASC) {
                 return a[orderBy] > b[orderBy] ? -1 : 1;
             } else {

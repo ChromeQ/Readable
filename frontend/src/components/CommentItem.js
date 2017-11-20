@@ -19,8 +19,11 @@ const CommentItem = (props) => {
     const handleVoting = (voteDirection) => () => {
         props.dispatch(makeVote(voteDirection, 'comments', comment.id))
     }
+
     const handleDelete = () => {
-        props.dispatch(removeComment(comment.id))
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            props.dispatch(removeComment(comment.id))
+        }
     }
 
     return (
