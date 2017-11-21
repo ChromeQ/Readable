@@ -1,0 +1,9 @@
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+export const SET_POSTS = 'SET_POSTS';
+export const ADD_POST = 'ADD_POST';
+export const UPDATE_POSTS = 'UPDATE_POSTS';
+export const REMOVE_POST = 'REMOVE_POST';
+export const SET_COMMENTS = 'SET_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const UPDATE_COMMENTS = 'UPDATE_COMMENTS';
+export const REMOVE_COMMENT = 'REMOVE_COMMENT';

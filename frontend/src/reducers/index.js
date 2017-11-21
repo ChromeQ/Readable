@@ -10,7 +10,7 @@ import {
     ADD_COMMENT,
     UPDATE_COMMENTS,
     REMOVE_COMMENT
-} from '../actions';
+} from '../actions/types';
 
 function categories (state = [], action) {
     switch (action.type) {
