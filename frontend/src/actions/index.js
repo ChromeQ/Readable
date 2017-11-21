@@ -4,6 +4,7 @@ import {
     ADD_POST,
     UPDATE_POSTS,
     REMOVE_POST,
+    ERROR_POST,
     SET_COMMENTS,
     ADD_COMMENT,
     UPDATE_COMMENTS,
@@ -52,10 +53,22 @@ export function getPost(postId) {
 
         return retrieve(url)
             .then(res => res.json())
-            .then(post => dispatch({
-                type: ADD_POST,
-                post
-            }));
+            .then(post => {
+                // There is a bug in the server, fetching a post that has been deleted returns an empty
+                // object rather than throwing an error like it does when the id in the url does not exist.
+                // Workaround by throwing an error for the PostDetailPage to handle showing a 404 page
+                if (post.id) {
+                    dispatch({
+                        type: ADD_POST,
+                        post
+                    });
+                } else {
+                    dispatch({
+                        type: ERROR_POST,
+                        id: postId
+                    });
+                }
+            });
     }
 }
 

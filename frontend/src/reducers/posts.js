@@ -3,6 +3,7 @@ import {
     ADD_POST,
     UPDATE_POSTS,
     REMOVE_POST,
+    ERROR_POST,
     ADD_COMMENT,
     REMOVE_COMMENT
 } from '../actions/types';
@@ -33,7 +34,6 @@ export default function posts (state = [], action) {
             }
         case UPDATE_POSTS:
         case REMOVE_POST:
-            // debugger;
             return state.map(post => {
                 // If it isn't a match simply return the post unchanged
                 if (post.id !== action.post.id) {
@@ -43,6 +43,15 @@ export default function posts (state = [], action) {
                 // Otherwise returned the removed/updated post from the action
                 return action.post;
             });
+        case ERROR_POST:
+            // Part of the server bug, add an error state post with matching id so the mapStateToProps
+            // can find this post and check the error flag
+            const errorPost = {
+                id: action.id,
+                error: true
+            };
+
+            return state.concat([errorPost]);
         case ADD_COMMENT:
             return state.map(post => {
                 if (post.id !== action.comment.parentId) {
