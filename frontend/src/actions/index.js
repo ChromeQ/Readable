@@ -106,8 +106,7 @@ export function getComments(postId) {
             .then(res => res.json())
             .then(comments => dispatch({
                 type: SET_COMMENTS,
-                comments,
-                postId
+                comments
             }));
     }
 }

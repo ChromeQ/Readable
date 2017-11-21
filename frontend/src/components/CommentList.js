@@ -48,10 +48,9 @@ class CommentList extends Component {
 
 function mapStateToProps (state, ownProps) {
     const { post: { id }} = ownProps;
-    const comments = state.comments[id] || [];
 
     return {
-        comments
+        comments: state.comments.filter(comment => comment.parentId === id)
     };
 }
 

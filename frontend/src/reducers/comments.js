@@ -5,44 +5,30 @@ import {
     REMOVE_COMMENT
 } from '../actions/types';
 
-export default function comments (state = {}, action) {
+export default function comments (state = [], action) {
+    let comments;
+
     switch (action.type) {
         case SET_COMMENTS:
-            const matchingComments = state[action.postId];
+            comments = action.comments.filter(comment => {
+                // Filter out the comments which are already in the state
+                return state.findIndex(c => c.id === comment.id) === -1;
+            });
 
-            if (!matchingComments) {
-                return {
-                    ...state,
-                    [action.postId]: action.comments
-                };
-            } else {
-                return state;
-            }
+            return state.concat(comments);
         case ADD_COMMENT:
-            const parentId = action.comment.parentId;
-
-            return {
-                ...state,
-                [parentId]: [
-                    ...state[parentId],
-                    action.comment
-                ]
-            };
+            return state.concat([action.comment]);
         case UPDATE_COMMENTS:
         case REMOVE_COMMENT:
-            const postId = action.comment.parentId;
-            const comments = state[postId].map(comment => {
+            return state.map(comment => {
+                // If it isn't a match simply return the comment unchanged
                 if (comment.id !== action.comment.id) {
                     return comment;
                 }
 
+                // Otherwise returned the removed/updated comment from the action
                 return action.comment;
             });
-
-            return {
-                ...state,
-                [postId]: comments
-            };
         default:
             return state;
     }
