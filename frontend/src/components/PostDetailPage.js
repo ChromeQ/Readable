@@ -19,6 +19,12 @@ class PostDetailPage extends Component {
         this.props.dispatch(getPost(this.props.match.params.postId));
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.post.deleted) {
+            this.props.history.push('/');
+        }
+    }
+
     handleEdit = () => {
         this.setState({ isEditing: true });
     }
@@ -34,11 +40,6 @@ class PostDetailPage extends Component {
 
         if (!post) {
             return <ReactLoading className="loading-spinner" type="spin" color="#555" />;
-        }
-
-        if (post.deleted) {
-            this.props.history.push('/');
-            return null;
         }
 
         return (

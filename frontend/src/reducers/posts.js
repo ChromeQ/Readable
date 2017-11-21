@@ -8,19 +8,17 @@ import {
 } from '../actions/types';
 
 export default function posts (state = [], action) {
-    let index,
-        post;
-
     switch (action.type) {
         case SET_POSTS:
             const posts = action.posts.filter(post => {
                 // Only return it if it was not found in the current state
                 return state.findIndex(p => p.id === post.id) === -1;
             });
+
             return state.concat(posts);
         case ADD_POST:
-            post = action.post;
-            index = state.findIndex(p => p.id === post.id);
+            const post = action.post;
+            const index = state.findIndex(p => p.id === post.id);
 
             if (index === -1) {
                 // Just simply add the new post to the end of the current posts array
@@ -35,13 +33,16 @@ export default function posts (state = [], action) {
             }
         case UPDATE_POSTS:
         case REMOVE_POST:
-            index = state.findIndex(p => p.id === action.post.id);
+            // debugger;
+            return state.map(post => {
+                // If it isn't a match simply return the post unchanged
+                if (post.id !== action.post.id) {
+                    return post;
+                }
 
-            return [
-                ...state.slice(0, index),
-                action.post,
-                ...state.slice(index + 1)
-            ];
+                // Otherwise returned the removed/updated post from the action
+                return action.post;
+            });
         case ADD_COMMENT:
             return state.map(post => {
                 if (post.id !== action.comment.parentId) {

@@ -6,11 +6,9 @@ import {
 } from '../actions/types';
 
 export default function comments (state = [], action) {
-    let comments;
-
     switch (action.type) {
         case SET_COMMENTS:
-            comments = action.comments.filter(comment => {
+            const comments = action.comments.filter(comment => {
                 // Filter out the comments which are already in the state
                 return state.findIndex(c => c.id === comment.id) === -1;
             });
